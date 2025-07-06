@@ -23,10 +23,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-// Configuration des contrats
-const SALE_CONTRACT_ADDRESS = "0xYourSmartContractAddressHere"; // À remplacer
-const PROJECT_TOKEN_ADDRESS = "0xYourProjectTokenAddressHere"; // À remplacer
-const USDT_ADDRESS = "0x55d398326f99059fF775485246999027B3197955"; // USDT BSC Mainnet
+// Konfigurasi kontrak
+const SALE_CONTRACT_ADDRESS = "0xBc8829bc74799B374932D5391836Fc9a1870245a";
+const PROJECT_TOKEN_ADDRESS = "0xb46B161d67889cA2172E3f6b3DAA024D9be3f3F3";
+const USDT_ADDRESS = "0x9D4aee992DBe30c26AB883E4E8E269111813767d";
 
 // ABI pour le contrat de vente
 const SALE_ABI = [
@@ -181,14 +181,14 @@ const MainContent = () => {
         
         <div className="glass rounded-2xl p-12 mb-8 relative z-10">
           <h1 className="text-6xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-6">
-            Token Sale DApp
+            Penjualan Token DApp
           </h1>
           <p className="text-2xl text-muted-foreground mb-4">
-            Achetez vos tokens sur Binance Smart Chain
+            Beli token Anda di Binance Smart Chain
           </p>
           <p className="text-lg text-muted-foreground/80 max-w-2xl mx-auto">
-            Interface moderne et sécurisée pour participer à la vente de tokens. 
-            Connectez votre wallet et commencez à investir dès aujourd'hui.
+            Interface modern dan aman untuk berpartisipasi dalam penjualan token. 
+            Hubungkan wallet Anda dan mulai berinvestasi hari ini.
           </p>
         </div>
         <ConnectWallet />
@@ -201,9 +201,9 @@ const MainContent = () => {
             <Card className="card-glow text-center">
               <CardContent className="p-8">
                 <Wallet className="w-16 h-16 text-primary mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">Connectez Votre Wallet</h3>
+                <h3 className="text-xl font-semibold mb-2">Hubungkan Wallet Anda</h3>
                 <p className="text-muted-foreground">
-                  Utilisez MetaMask ou Trust Wallet pour vous connecter à BSC
+                  Gunakan MetaMask atau Trust Wallet untuk terhubung ke BSC
                 </p>
               </CardContent>
             </Card>
@@ -221,9 +221,9 @@ const MainContent = () => {
             <Card className="card-glow text-center">
               <CardContent className="p-8">
                 <TrendingUp className="w-16 h-16 text-accent mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">Système de Parrainage</h3>
+                <h3 className="text-xl font-semibold mb-2">Sistem Referral</h3>
                 <p className="text-muted-foreground">
-                  Invitez vos amis et gagnez des bonus sur chaque achat
+                  Undang teman Anda dan dapatkan bonus untuk setiap pembelian
                 </p>
               </CardContent>
             </Card>
@@ -257,16 +257,16 @@ const MainContent = () => {
         <Card className="card-glow max-w-md mx-auto">
           <CardContent className="p-8 text-center">
             <AlertCircle className="w-16 h-16 text-warning mx-auto mb-4" />
-            <h3 className="text-xl font-semibold mb-4">Mauvais Réseau</h3>
+            <h3 className="text-xl font-semibold mb-4">Jaringan Salah</h3>
             <p className="text-muted-foreground mb-6">
-              Veuillez vous connecter à Binance Smart Chain
+              Silakan hubungkan ke Binance Smart Chain
             </p>
             <Button 
               onClick={() => switchChain({ chainId: 56 })}
               className="w-full"
               variant="secondary"
             >
-              Changer vers BSC
+              Ganti ke BSC
             </Button>
           </CardContent>
         </Card>
