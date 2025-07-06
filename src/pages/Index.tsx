@@ -3,7 +3,7 @@ import { WagmiProvider, createConfig, http } from 'wagmi';
 import { bsc, bscTestnet } from 'wagmi/chains';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { injected, walletConnect } from 'wagmi/connectors';
-import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt, useSwitchChain, useConnect, useDisconnect } from 'wagmi';
+import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt, useSwitchChain, useConnect, useDisconnect, useBalance } from 'wagmi';
 import { parseEther, formatEther, parseUnits, formatUnits } from 'viem';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -17,7 +17,12 @@ import {
   ExternalLink,
   Loader2,
   AlertCircle,
-  CheckCircle
+  CheckCircle,
+  Shield,
+  Zap,
+  Users,
+  ArrowRight,
+  X
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -28,7 +33,7 @@ const SALE_CONTRACT_ADDRESS = "0xBc8829bc74799B374932D5391836Fc9a1870245a";
 const PROJECT_TOKEN_ADDRESS = "0xb46B161d67889cA2172E3f6b3DAA024D9be3f3F3";
 const USDT_ADDRESS = "0x9D4aee992DBe30c26AB883E4E8E269111813767d";
 
-// ABI pour le contrat de vente
+// ABI untuk kontrak penjualan
 const SALE_ABI = [
   {
     "type": "function",
@@ -86,7 +91,7 @@ const SALE_ABI = [
   }
 ];
 
-// ABI pour ERC20 (USDT et Token du projet)
+// ABI untuk ERC20
 const ERC20_ABI = [
   {
     "constant": true,
@@ -117,13 +122,13 @@ const ERC20_ABI = [
   }
 ];
 
-// Configuration Wagmi
+// Konfigurasi Wagmi
 const config = createConfig({
   chains: [bsc, bscTestnet],
   connectors: [
     injected(),
     walletConnect({
-      projectId: 'demo-project-id', // Remplacer par votre propre WalletConnect Project ID
+      projectId: '2f5a2a1a4e8b9c3d7f1e6a8b4c2d5e3f',
     }),
   ],
   transports: {
@@ -134,12 +139,12 @@ const config = createConfig({
 
 const queryClient = new QueryClient();
 
-// Composant principal
+// Komponen utama
 const TokenSaleDApp = () => {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <div className="min-h-screen bg-gradient-to-br from-background to-card">
+        <div className="min-h-screen bg-gradient-to-br from-background via-card to-background">
           <ToastContainer
             position="top-right"
             autoClose={5000}
@@ -151,6 +156,7 @@ const TokenSaleDApp = () => {
             draggable
             pauseOnHover
             theme="dark"
+            className="z-50"
           />
           <MainContent />
         </div>
@@ -159,177 +165,245 @@ const TokenSaleDApp = () => {
   );
 };
 
-// Contenu principal
+// Konten utama
 const MainContent = () => {
   const { address, isConnected, chain } = useAccount();
   const { switchChain } = useSwitchChain();
   const isWrongNetwork = chain && ![56, 97].includes(chain.id);
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      {/* Header */}
-      <header className="mb-12 text-center relative">
-        {/* Hero Background */}
-        <div className="absolute inset-0 rounded-2xl overflow-hidden">
-          <img 
-            src={cryptoHero} 
-            alt="Crypto Hero" 
-            className="w-full h-full object-cover opacity-20"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-transparent to-background/80"></div>
-        </div>
-        
-        <div className="glass rounded-2xl p-12 mb-8 relative z-10">
-          <h1 className="text-6xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-6">
-            Penjualan Token DApp
-          </h1>
-          <p className="text-2xl text-muted-foreground mb-4">
-            Beli token Anda di Binance Smart Chain
-          </p>
-          <p className="text-lg text-muted-foreground/80 max-w-2xl mx-auto">
-            Interface modern dan aman untuk berpartisipasi dalam penjualan token. 
-            Hubungkan wallet Anda dan mulai berinvestasi hari ini.
-          </p>
-        </div>
-        <ConnectWallet />
-      </header>
+    <div className="relative">
+      {/* Background Effects */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse-glow"></div>
+        <div className="absolute top-1/3 right-1/4 w-80 h-80 bg-secondary/10 rounded-full blur-3xl animate-pulse-glow delay-1000"></div>
+        <div className="absolute bottom-1/4 left-1/3 w-72 h-72 bg-accent/10 rounded-full blur-3xl animate-pulse-glow delay-2000"></div>
+      </div>
 
-      {/* Message pour wallet non connecté */}
-      {!isConnected && (
-        <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            <Card className="card-glow text-center">
-              <CardContent className="p-8">
-                <Wallet className="w-16 h-16 text-primary mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">Hubungkan Wallet Anda</h3>
-                <p className="text-muted-foreground">
-                  Gunakan MetaMask atau Trust Wallet untuk terhubung ke BSC
-                </p>
-              </CardContent>
-            </Card>
+      <div className="relative z-10 container mx-auto px-4 py-8">
+        {/* Header Modern */}
+        <header className="mb-16 text-center animate-fade-in">
+          <div className="relative overflow-hidden rounded-3xl mb-8">
+            {/* Hero Background dengan Overlay */}
+            <div className="absolute inset-0">
+              <img 
+                src={cryptoHero} 
+                alt="Crypto Hero" 
+                className="w-full h-full object-cover opacity-30"
+              />
+              <div className="absolute inset-0 bg-gradient-to-br from-background/90 via-background/70 to-transparent"></div>
+            </div>
             
-            <Card className="card-glow text-center">
-              <CardContent className="p-8">
-                <Coins className="w-16 h-16 text-secondary mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">Achetez des Tokens</h3>
-                <p className="text-muted-foreground">
-                  Payez avec BNB ou USDT pour recevoir vos tokens instantanément
-                </p>
-              </CardContent>
-            </Card>
+            <div className="relative z-10 glass-card p-16">
+              <div className="animate-float">
+                <h1 className="text-7xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-8 leading-tight">
+                  🚀 Token Sale DApp
+                </h1>
+              </div>
+              <p className="text-3xl text-foreground/90 mb-6 font-medium">
+                Platform Penjualan Token Terdepan
+              </p>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-8">
+                Bergabunglah dengan revolusi crypto! Interface yang aman dan mudah digunakan 
+                untuk membeli token dengan BNB atau USDT di Binance Smart Chain.
+              </p>
+              
+              {/* Stats Bar */}
+              <div className="flex justify-center items-center gap-8 mb-8">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-primary">24/7</div>
+                  <div className="text-sm text-muted-foreground">Support</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-secondary">100%</div>
+                  <div className="text-sm text-muted-foreground">Aman</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-accent">Instant</div>
+                  <div className="text-sm text-muted-foreground">Transfer</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ConnectWallet />
+        </header>
+
+        {/* Feature Cards untuk non-connected users */}
+        {!isConnected && (
+          <div className="max-w-6xl mx-auto mb-16 animate-fade-in delay-300">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <FeatureCard 
+                icon={<Shield className="w-12 h-12 text-primary" />}
+                title="Keamanan Terjamin"
+                description="Smart contract yang telah diaudit dan sistem enkripsi tingkat bank"
+                delay="0"
+              />
+              <FeatureCard 
+                icon={<Zap className="w-12 h-12 text-secondary" />}
+                title="Transaksi Instan"
+                description="Proses pembelian token yang cepat dengan konfirmasi real-time"
+                delay="100"
+              />
+              <FeatureCard 
+                icon={<Users className="w-12 h-12 text-accent" />}
+                title="Sistem Referral"
+                description="Dapatkan bonus untuk setiap referral yang berhasil"
+                delay="200"
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Konten untuk wallet yang terhubung */}
+        {isConnected && !isWrongNetwork && (
+          <div className="animate-fade-in">
+            {/* Sale Status */}
+            <div className="mb-12">
+              <SaleStatus />
+            </div>
             
-            <Card className="card-glow text-center">
-              <CardContent className="p-8">
-                <TrendingUp className="w-16 h-16 text-accent mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">Sistem Referral</h3>
-                <p className="text-muted-foreground">
-                  Undang teman Anda dan dapatkan bonus untuk setiap pembelian
-                </p>
-              </CardContent>
-            </Card>
+            {/* Purchase Panels */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 max-w-7xl mx-auto">
+              <div className="lg:col-span-1">
+                <BuyWithBNB />
+              </div>
+              <div className="lg:col-span-1">
+                <BuyWithUSDT />
+              </div>
+              <div className="xl:col-span-1 lg:col-span-2">
+                <UserBalances />
+              </div>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Contenu principal si connecté et sur le bon réseau */}
-      {isConnected && !isWrongNetwork && (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Statut de la vente */}
-          <div className="lg:col-span-3">
-            <SaleStatus />
-          </div>
-          
-          {/* Panels d'achat */}
-          <div className="lg:col-span-1">
-            <BuyWithBNB />
-          </div>
-          <div className="lg:col-span-1">
-            <BuyWithUSDT />
-          </div>
-          <div className="lg:col-span-1">
-            <UserBalances />
-          </div>
-        </div>
-      )}
-
-      {/* Message pour mauvais réseau */}
-      {isConnected && isWrongNetwork && (
-        <Card className="card-glow max-w-md mx-auto">
-          <CardContent className="p-8 text-center">
-            <AlertCircle className="w-16 h-16 text-warning mx-auto mb-4" />
-            <h3 className="text-xl font-semibold mb-4">Jaringan Salah</h3>
-            <p className="text-muted-foreground mb-6">
-              Silakan hubungkan ke Binance Smart Chain
-            </p>
-            <Button 
-              onClick={() => switchChain({ chainId: 56 })}
-              className="w-full"
-              variant="secondary"
-            >
-              Ganti ke BSC
-            </Button>
-          </CardContent>
-        </Card>
-      )}
+        {/* Wrong Network Warning */}
+        {isConnected && isWrongNetwork && (
+          <Card className="card-glow max-w-md mx-auto animate-scale-in">
+            <CardContent className="p-8 text-center">
+              <AlertCircle className="w-20 h-20 text-warning mx-auto mb-6 animate-pulse" />
+              <h3 className="text-2xl font-bold mb-4">Jaringan Salah</h3>
+              <p className="text-muted-foreground mb-8 text-lg">
+                Silakan hubungkan ke Binance Smart Chain untuk melanjutkan
+              </p>
+              <Button 
+                onClick={() => switchChain({ chainId: 56 })}
+                className="w-full text-lg py-6"
+                size="lg"
+              >
+                <ArrowRight className="w-5 h-5 mr-2" />
+                Ganti ke BSC
+              </Button>
+            </CardContent>
+          </Card>
+        )}
+      </div>
     </div>
   );
 };
 
-// Composant ConnectWallet
+// Feature Card Component
+const FeatureCard = ({ icon, title, description, delay }: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  delay: string;
+}) => (
+  <Card className={`card-glow hover:scale-105 transition-all duration-300 animate-fade-in`} 
+        style={{ animationDelay: `${delay}ms` }}>
+    <CardContent className="p-8 text-center">
+      <div className="mb-6 flex justify-center animate-float">
+        {icon}
+      </div>
+      <h3 className="text-xl font-bold mb-4">{title}</h3>
+      <p className="text-muted-foreground leading-relaxed">{description}</p>
+    </CardContent>
+  </Card>
+);
+
+// Komponen Connect Wallet yang diperbaiki
 const ConnectWallet = () => {
   const { address, isConnected } = useAccount();
-  const { connect, connectors } = useConnect();
+  const { connect, connectors, isPending } = useConnect();
   const { disconnect } = useDisconnect();
+  const { data: balance } = useBalance({ address });
+
+  // Filter hanya connector yang tersedia
+  const availableConnectors = connectors.filter(connector => connector.name !== 'WalletConnect' || connector.id === 'walletConnect');
 
   if (!isConnected) {
     return (
-      <div className="flex gap-2 justify-center">
-        {connectors.map((connector) => (
-          <Button
-            key={connector.uid}
-            onClick={() => connect({ connector })}
-            size="lg"
-            className="bg-gradient-primary hover:shadow-glow transition-all"
-          >
-            <Wallet className="w-5 h-5 mr-2" />
-            Connecter {connector.name}
-          </Button>
-        ))}
+      <div className="flex flex-col items-center gap-6">
+        <div className="flex flex-wrap gap-4 justify-center">
+          {availableConnectors.map((connector) => (
+            <Button
+              key={connector.uid}
+              onClick={() => connect({ connector })}
+              disabled={isPending}
+              size="lg"
+              className="bg-gradient-primary hover:shadow-button transition-all duration-300 text-lg px-8 py-4 hover:scale-105"
+            >
+              {isPending ? (
+                <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+              ) : (
+                <Wallet className="w-5 h-5 mr-2" />
+              )}
+              Hubungkan {connector.name}
+            </Button>
+          ))}
+        </div>
+        <p className="text-sm text-muted-foreground">
+          Hubungkan wallet Anda untuk mulai membeli token
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="flex items-center justify-center gap-4">
-      <div className="glass rounded-lg p-4 flex items-center gap-3">
-        <div className="w-3 h-3 bg-success rounded-full"></div>
-        <span className="font-mono">
-          {address?.slice(0, 6)}...{address?.slice(-4)}
-        </span>
-        <Button
-          size="sm"
-          variant="ghost"
-          onClick={() => navigator.clipboard.writeText(address || '')}
-        >
-          <Copy className="w-4 h-4" />
-        </Button>
-        <Button
-          size="sm"
-          variant="outline"
-          onClick={() => disconnect()}
-        >
-          Déconnecter
-        </Button>
+    <div className="flex items-center justify-center gap-6 animate-scale-in">
+      <div className="glass-card rounded-2xl p-6 flex items-center gap-4">
+        <div className="flex items-center gap-3">
+          <div className="w-4 h-4 bg-success rounded-full animate-pulse"></div>
+          <div>
+            <div className="font-mono text-lg font-semibold">
+              {address?.slice(0, 6)}...{address?.slice(-4)}
+            </div>
+            {balance && (
+              <div className="text-sm text-muted-foreground">
+                {parseFloat(balance.formatted).toFixed(4)} BNB
+              </div>
+            )}
+          </div>
+        </div>
+        
+        <div className="flex gap-2">
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={() => navigator.clipboard.writeText(address || '')}
+            className="hover:bg-primary/20"
+          >
+            <Copy className="w-4 h-4" />
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => disconnect()}
+            className="hover:bg-destructive/20 hover:text-destructive hover:border-destructive"
+          >
+            <X className="w-4 h-4 mr-1" />
+            Keluar
+          </Button>
+        </div>
       </div>
     </div>
   );
 };
 
-// Composant SaleStatus
+// Sale Status dengan design yang diperbaiki
 const SaleStatus = () => {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
-  // Lecture des données du contrat
   const { data: endTime } = useReadContract({
     address: SALE_CONTRACT_ADDRESS as `0x${string}`,
     abi: SALE_ABI,
@@ -348,7 +422,6 @@ const SaleStatus = () => {
     functionName: 'paused',
   });
 
-  // Countdown timer
   useEffect(() => {
     if (!endTime) return;
 
@@ -361,7 +434,6 @@ const SaleStatus = () => {
         const hours = Math.floor((difference % (24 * 60 * 60)) / (60 * 60));
         const minutes = Math.floor((difference % (60 * 60)) / 60);
         const seconds = difference % 60;
-
         setTimeLeft({ days, hours, minutes, seconds });
       } else {
         setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
@@ -372,55 +444,61 @@ const SaleStatus = () => {
   }, [endTime]);
 
   return (
-    <Card className="card-glow">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <TrendingUp className="w-6 h-6 text-primary" />
-          Statut de la Vente
+    <Card className="card-glow animate-fade-in">
+      <CardHeader className="text-center">
+        <CardTitle className="flex items-center justify-center gap-3 text-2xl">
+          <TrendingUp className="w-8 h-8 text-primary animate-pulse" />
+          Status Penjualan Token
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Countdown */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Countdown Timer */}
           <div className="text-center">
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <Timer className="w-5 h-5 text-accent" />
-              <span className="text-sm text-muted-foreground">Fin dans:</span>
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <Timer className="w-6 h-6 text-accent" />
+              <span className="text-lg font-semibold text-muted-foreground">Berakhir dalam:</span>
             </div>
-            <div className="flex justify-center gap-2">
+            <div className="flex justify-center gap-3">
               {[
-                { label: 'J', value: timeLeft.days },
-                { label: 'H', value: timeLeft.hours },
-                { label: 'M', value: timeLeft.minutes },
-                { label: 'S', value: timeLeft.seconds }
+                { label: 'Hari', value: timeLeft.days },
+                { label: 'Jam', value: timeLeft.hours },
+                { label: 'Menit', value: timeLeft.minutes },
+                { label: 'Detik', value: timeLeft.seconds }
               ].map((item, index) => (
-                <div key={index} className="glass rounded-lg p-2 min-w-[50px]">
-                  <div className="text-xl font-bold text-primary">{item.value}</div>
-                  <div className="text-xs text-muted-foreground">{item.label}</div>
+                <div key={index} className="glass-card rounded-xl p-4 min-w-[70px] animate-pulse-glow">
+                  <div className="text-3xl font-bold text-primary mb-1">{item.value}</div>
+                  <div className="text-xs text-muted-foreground font-medium">{item.label}</div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Total vendu */}
+          {/* Total Terjual */}
           <div className="text-center">
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <Coins className="w-5 h-5 text-secondary" />
-              <span className="text-sm text-muted-foreground">Total Vendu:</span>
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <Coins className="w-6 h-6 text-secondary" />
+              <span className="text-lg font-semibold text-muted-foreground">Total Terjual:</span>
             </div>
-            <div className="text-2xl font-bold text-secondary">
-              {totalSold ? formatEther(totalSold as bigint).slice(0, 10) : '0'} Tokens
+            <div className="glass-card rounded-xl p-6">
+              <div className="text-3xl font-bold text-secondary mb-2">
+                {totalSold ? formatEther(totalSold as bigint).slice(0, 10) : '0'}
+              </div>
+              <div className="text-sm text-muted-foreground">Token</div>
             </div>
           </div>
 
-          {/* Statut */}
+          {/* Status */}
           <div className="text-center">
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <CheckCircle className="w-5 h-5 text-success" />
-              <span className="text-sm text-muted-foreground">Statut:</span>
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <CheckCircle className="w-6 h-6 text-success" />
+              <span className="text-lg font-semibold text-muted-foreground">Status:</span>
             </div>
-            <div className={`text-lg font-semibold ${isPaused ? 'text-warning' : 'text-success'}`}>
-              {isPaused ? 'En Pause' : 'Actif'}
+            <div className="glass-card rounded-xl p-6">
+              <div className={`text-2xl font-bold mb-2 ${isPaused ? 'text-warning' : 'text-success'}`}>
+                {isPaused ? '⏸️ Dijeda' : '🟢 Aktif'}
+              </div>
+              <div className="text-sm text-muted-foreground">Penjualan</div>
             </div>
           </div>
         </div>
@@ -429,32 +507,27 @@ const SaleStatus = () => {
   );
 };
 
-// Composant BuyWithBNB
+// Buy with BNB dengan design yang diperbaiki
 const BuyWithBNB = () => {
   const [bnbAmount, setBnbAmount] = useState('');
   const [referrer, setReferrer] = useState('');
   const { address, chain } = useAccount();
   const { writeContract, data: hash, isPending } = useWriteContract();
 
-  // Lecture du prix en BNB
   const { data: priceBNB } = useReadContract({
     address: SALE_CONTRACT_ADDRESS as `0x${string}`,
     abi: SALE_ABI,
     functionName: 'tokenPriceBNB',
   });
 
-  // Attendre la confirmation de transaction
-  const { isSuccess } = useWaitForTransactionReceipt({
-    hash,
-  });
+  const { isSuccess } = useWaitForTransactionReceipt({ hash });
 
-  // Calculer les tokens estimés
   const estimatedTokens = bnbAmount && priceBNB ? 
     (parseFloat(bnbAmount) / (Number(priceBNB as bigint) / 1e18)).toFixed(4) : '0';
 
   const handleBuy = () => {
     if (!bnbAmount) {
-      toast.error('Veuillez entrer un montant BNB');
+      toast.error('Masukkan jumlah BNB yang valid');
       return;
     }
 
@@ -470,61 +543,74 @@ const BuyWithBNB = () => {
       chain: chain,
     });
 
-    toast.info('Transaction envoyée...');
+    toast.info('Transaksi sedang diproses...');
   };
 
-  // Effet pour les notifications de succès/erreur
   useEffect(() => {
     if (isSuccess) {
-      toast.success('Achat réussi!');
+      toast.success('🎉 Pembelian berhasil!');
       setBnbAmount('');
+      setReferrer('');
     }
   }, [isSuccess]);
 
   return (
-    <Card className="card-glow">
-      <CardHeader>
-        <CardTitle className="text-center">Acheter avec BNB</CardTitle>
+    <Card className="card-glow animate-fade-in">
+      <CardHeader className="text-center">
+        <CardTitle className="text-xl flex items-center justify-center gap-2">
+          <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center">
+            💰
+          </div>
+          Beli dengan BNB
+        </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div>
-          <label className="text-sm text-muted-foreground">Montant BNB</label>
+      <CardContent className="space-y-6">
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-muted-foreground">Jumlah BNB</label>
           <Input
             type="number"
             placeholder="0.0"
             value={bnbAmount}
             onChange={(e) => setBnbAmount(e.target.value)}
-            className="mt-1"
+            className="text-lg h-12 bg-input/50 backdrop-blur-sm"
           />
         </div>
 
-        <div>
-          <label className="text-sm text-muted-foreground">Référent (optionnel)</label>
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-muted-foreground">
+            Alamat Referral <span className="text-xs">(opsional)</span>
+          </label>
           <Input
             placeholder="0x..."
             value={referrer}
             onChange={(e) => setReferrer(e.target.value)}
-            className="mt-1"
+            className="h-12 bg-input/50 backdrop-blur-sm font-mono text-sm"
           />
         </div>
 
-        <div className="glass rounded-lg p-3">
-          <div className="text-sm text-muted-foreground">Tokens estimés:</div>
-          <div className="text-lg font-semibold text-primary">{estimatedTokens}</div>
+        <div className="glass-card rounded-xl p-4 bg-primary/5">
+          <div className="flex justify-between items-center">
+            <span className="text-sm text-muted-foreground">Token yang diterima:</span>
+            <span className="text-xl font-bold text-primary">{estimatedTokens}</span>
+          </div>
         </div>
 
         <Button
           onClick={handleBuy}
           disabled={isPending || !bnbAmount}
-          className="w-full bg-gradient-primary hover:shadow-button"
+          className="w-full bg-gradient-primary hover:shadow-button text-lg py-6 transition-all duration-300"
+          size="lg"
         >
           {isPending ? (
             <>
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Transaction...
+              <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+              Memproses Transaksi...
             </>
           ) : (
-            'Acheter avec BNB'
+            <>
+              <Wallet className="w-5 h-5 mr-2" />
+              Beli dengan BNB
+            </>
           )}
         </Button>
       </CardContent>
@@ -532,14 +618,13 @@ const BuyWithBNB = () => {
   );
 };
 
-// Composant BuyWithUSDT
+// Buy with USDT dengan design yang diperbaiki
 const BuyWithUSDT = () => {
   const [usdtAmount, setUsdtAmount] = useState('');
   const [referrer, setReferrer] = useState('');
   const { address, chain } = useAccount();
   const { writeContract, data: hash, isPending } = useWriteContract();
 
-  // Lecture des données USDT
   const { data: usdtAllowance } = useReadContract({
     address: USDT_ADDRESS as `0x${string}`,
     abi: ERC20_ABI,
@@ -553,9 +638,7 @@ const BuyWithUSDT = () => {
     functionName: 'tokenPriceUSDT',
   });
 
-  const { isSuccess } = useWaitForTransactionReceipt({
-    hash,
-  });
+  const { isSuccess } = useWaitForTransactionReceipt({ hash });
 
   const needsApproval = usdtAmount && usdtAllowance ? 
     parseUnits(usdtAmount, 18) > (usdtAllowance as bigint) : true;
@@ -575,12 +658,12 @@ const BuyWithUSDT = () => {
       chain: chain,
     });
 
-    toast.info('Approbation en cours...');
+    toast.info('Menyetujui penggunaan USDT...');
   };
 
   const handleBuy = () => {
     if (!usdtAmount) {
-      toast.error('Veuillez entrer un montant USDT');
+      toast.error('Masukkan jumlah USDT yang valid');
       return;
     }
 
@@ -595,78 +678,96 @@ const BuyWithUSDT = () => {
       chain: chain,
     });
 
-    toast.info('Transaction envoyée...');
+    toast.info('Transaksi sedang diproses...');
   };
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success(needsApproval ? 'Approbation réussie!' : 'Achat réussi!');
+      toast.success(needsApproval ? '✅ Persetujuan berhasil!' : '🎉 Pembelian berhasil!');
       if (!needsApproval) {
         setUsdtAmount('');
+        setReferrer('');
       }
     }
   }, [isSuccess, needsApproval]);
 
   return (
-    <Card className="card-glow">
-      <CardHeader>
-        <CardTitle className="text-center">Acheter avec USDT</CardTitle>
+    <Card className="card-glow animate-fade-in delay-100">
+      <CardHeader className="text-center">
+        <CardTitle className="text-xl flex items-center justify-center gap-2">
+          <div className="w-8 h-8 bg-gradient-accent rounded-full flex items-center justify-center">
+            💵
+          </div>
+          Beli dengan USDT
+        </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div>
-          <label className="text-sm text-muted-foreground">Montant USDT</label>
+      <CardContent className="space-y-6">
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-muted-foreground">Jumlah USDT</label>
           <Input
             type="number"
             placeholder="0.0"
             value={usdtAmount}
             onChange={(e) => setUsdtAmount(e.target.value)}
-            className="mt-1"
+            className="text-lg h-12 bg-input/50 backdrop-blur-sm"
           />
         </div>
 
-        <div>
-          <label className="text-sm text-muted-foreground">Référent (optionnel)</label>
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-muted-foreground">
+            Alamat Referral <span className="text-xs">(opsional)</span>
+          </label>
           <Input
             placeholder="0x..."
             value={referrer}
             onChange={(e) => setReferrer(e.target.value)}
-            className="mt-1"
+            className="h-12 bg-input/50 backdrop-blur-sm font-mono text-sm"
           />
         </div>
 
-        <div className="glass rounded-lg p-3">
-          <div className="text-sm text-muted-foreground">Tokens estimés:</div>
-          <div className="text-lg font-semibold text-secondary">{estimatedTokens}</div>
+        <div className="glass-card rounded-xl p-4 bg-secondary/5">
+          <div className="flex justify-between items-center">
+            <span className="text-sm text-muted-foreground">Token yang diterima:</span>
+            <span className="text-xl font-bold text-secondary">{estimatedTokens}</span>
+          </div>
         </div>
 
         {needsApproval ? (
           <Button
             onClick={handleApprove}
             disabled={isPending || !usdtAmount}
-            className="w-full bg-gradient-accent hover:shadow-button"
+            className="w-full bg-gradient-accent hover:shadow-button text-lg py-6 transition-all duration-300"
+            size="lg"
           >
             {isPending ? (
               <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Approbation...
+                <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                Menyetujui USDT...
               </>
             ) : (
-              'Approuver USDT'
+              <>
+                <CheckCircle className="w-5 h-5 mr-2" />
+                Setujui Penggunaan USDT
+              </>
             )}
           </Button>
         ) : (
           <Button
             onClick={handleBuy}
             disabled={isPending || !usdtAmount}
-            className="w-full bg-gradient-accent hover:shadow-button"
+            className="w-full bg-gradient-accent hover:shadow-button text-lg py-6 transition-all duration-300"
+            size="lg"
           >
             {isPending ? (
               <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Transaction...
+                <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                Memproses Transaksi...
               </>
             ) : (
-              'Acheter avec USDT'
+              <>
+                <Coins className="w-5 h-5 mr-2" />
+                Beli dengan USDT
+              </>
             )}
           </Button>
         )}
@@ -675,7 +776,7 @@ const BuyWithUSDT = () => {
   );
 };
 
-// Composant UserBalances
+// User Balances dengan design yang diperbaiki
 const UserBalances = () => {
   const { address } = useAccount();
 
@@ -693,33 +794,67 @@ const UserBalances = () => {
     args: [address],
   });
 
-  return (
-    <Card className="card-glow">
-      <CardHeader>
-        <CardTitle className="text-center">Vos Soldes</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="glass rounded-lg p-4">
-          <div className="text-sm text-muted-foreground">Project Tokens</div>
-          <div className="text-xl font-bold text-primary">
-            {projectTokenBalance ? formatEther(projectTokenBalance as bigint).slice(0, 10) : '0'}
-          </div>
-        </div>
+  const { data: bnbBalance } = useBalance({ address });
 
-        <div className="glass rounded-lg p-4">
-          <div className="text-sm text-muted-foreground">USDT</div>
-          <div className="text-xl font-bold text-accent">
-            {usdtBalance ? formatUnits(usdtBalance as bigint, 18).slice(0, 10) : '0'}
+  return (
+    <Card className="card-glow animate-fade-in delay-200">
+      <CardHeader className="text-center">
+        <CardTitle className="text-xl flex items-center justify-center gap-2">
+          <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center">
+            👛
+          </div>
+          Saldo Wallet Anda
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        <div className="grid gap-4">
+          {/* Project Token Balance */}
+          <div className="glass-card rounded-xl p-4 bg-primary/5">
+            <div className="flex justify-between items-center">
+              <div>
+                <div className="text-sm text-muted-foreground">Project Token</div>
+                <div className="text-2xl font-bold text-primary">
+                  {projectTokenBalance ? formatEther(projectTokenBalance as bigint).slice(0, 10) : '0'}
+                </div>
+              </div>
+              <Coins className="w-8 h-8 text-primary opacity-50" />
+            </div>
+          </div>
+
+          {/* USDT Balance */}
+          <div className="glass-card rounded-xl p-4 bg-accent/5">
+            <div className="flex justify-between items-center">
+              <div>
+                <div className="text-sm text-muted-foreground">USDT</div>
+                <div className="text-2xl font-bold text-accent">
+                  {usdtBalance ? formatUnits(usdtBalance as bigint, 18).slice(0, 10) : '0'}
+                </div>
+              </div>
+              <div className="text-2xl">💵</div>
+            </div>
+          </div>
+
+          {/* BNB Balance */}
+          <div className="glass-card rounded-xl p-4 bg-secondary/5">
+            <div className="flex justify-between items-center">
+              <div>
+                <div className="text-sm text-muted-foreground">BNB</div>
+                <div className="text-2xl font-bold text-secondary">
+                  {bnbBalance ? parseFloat(bnbBalance.formatted).toFixed(4) : '0'}
+                </div>
+              </div>
+              <div className="text-2xl">💰</div>
+            </div>
           </div>
         </div>
 
         <Button
           onClick={() => window.open(`https://bscscan.com/address/${address}`, '_blank')}
           variant="outline"
-          className="w-full"
+          className="w-full hover:bg-primary/10 transition-all duration-300"
         >
           <ExternalLink className="w-4 h-4 mr-2" />
-          Voir sur BSCScan
+          Lihat di BSCScan
         </Button>
       </CardContent>
     </Card>
