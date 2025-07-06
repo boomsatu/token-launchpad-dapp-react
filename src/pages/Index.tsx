@@ -181,9 +181,9 @@ const MainContent = () => {
       </div>
 
       <div className="relative z-10 container mx-auto px-4 py-8">
-        {/* Header Modern */}
-        <header className="mb-16 text-center animate-fade-in">
-          <div className="relative overflow-hidden rounded-3xl mb-8">
+        {/* Header Modern - Mobile Optimized */}
+        <header className="mb-8 md:mb-16 text-center animate-fade-in">
+          <div className="relative overflow-hidden rounded-2xl md:rounded-3xl mb-6 md:mb-8">
             {/* Hero Background dengan Overlay */}
             <div className="absolute inset-0">
               <img 
@@ -194,33 +194,33 @@ const MainContent = () => {
               <div className="absolute inset-0 bg-gradient-to-br from-background/90 via-background/70 to-transparent"></div>
             </div>
             
-            <div className="relative z-10 glass-card p-16">
+            <div className="relative z-10 glass-card p-6 md:p-16">
               <div className="animate-float">
-                <h1 className="text-7xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-8 leading-tight">
+                <h1 className="text-4xl md:text-7xl font-bold bg-gradient-primary bg-clip-text text-transparent mb-4 md:mb-8 leading-tight">
                   🚀 Token Sale DApp
                 </h1>
               </div>
-              <p className="text-3xl text-foreground/90 mb-6 font-medium">
+              <p className="text-lg md:text-3xl text-foreground/90 mb-3 md:mb-6 font-medium px-2">
                 Platform Penjualan Token Terdepan
               </p>
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-8">
+              <p className="text-sm md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-6 md:mb-8 px-4">
                 Bergabunglah dengan revolusi crypto! Interface yang aman dan mudah digunakan 
                 untuk membeli token dengan BNB atau USDT di Binance Smart Chain.
               </p>
               
-              {/* Stats Bar */}
-              <div className="flex justify-center items-center gap-8 mb-8">
+              {/* Stats Bar - Mobile Responsive */}
+              <div className="flex justify-center items-center gap-4 md:gap-8 mb-6 md:mb-8">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-primary">24/7</div>
-                  <div className="text-sm text-muted-foreground">Support</div>
+                  <div className="text-lg md:text-2xl font-bold text-primary">24/7</div>
+                  <div className="text-xs md:text-sm text-muted-foreground">Support</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-secondary">100%</div>
-                  <div className="text-sm text-muted-foreground">Aman</div>
+                  <div className="text-lg md:text-2xl font-bold text-secondary">100%</div>
+                  <div className="text-xs md:text-sm text-muted-foreground">Aman</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-accent">Instant</div>
-                  <div className="text-sm text-muted-foreground">Transfer</div>
+                  <div className="text-lg md:text-2xl font-bold text-accent">Instant</div>
+                  <div className="text-xs md:text-sm text-muted-foreground">Transfer</div>
                 </div>
               </div>
             </div>
@@ -228,24 +228,24 @@ const MainContent = () => {
           <ConnectWallet />
         </header>
 
-        {/* Feature Cards untuk non-connected users */}
+        {/* Feature Cards untuk non-connected users - Mobile Responsive */}
         {!isConnected && (
-          <div className="max-w-6xl mx-auto mb-16 animate-fade-in delay-300">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="max-w-6xl mx-auto mb-8 md:mb-16 animate-fade-in delay-300 px-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
               <FeatureCard 
-                icon={<Shield className="w-12 h-12 text-primary" />}
+                icon={<Shield className="w-8 h-8 md:w-12 md:h-12 text-primary" />}
                 title="Keamanan Terjamin"
                 description="Smart contract yang telah diaudit dan sistem enkripsi tingkat bank"
                 delay="0"
               />
               <FeatureCard 
-                icon={<Zap className="w-12 h-12 text-secondary" />}
+                icon={<Zap className="w-8 h-8 md:w-12 md:h-12 text-secondary" />}
                 title="Transaksi Instan"
                 description="Proses pembelian token yang cepat dengan konfirmasi real-time"
                 delay="100"
               />
               <FeatureCard 
-                icon={<Users className="w-12 h-12 text-accent" />}
+                icon={<Users className="w-8 h-8 md:w-12 md:h-12 text-accent" />}
                 title="Sistem Referral"
                 description="Dapatkan bonus untuk setiap referral yang berhasil"
                 delay="200"
@@ -254,23 +254,23 @@ const MainContent = () => {
           </div>
         )}
 
-        {/* Konten untuk wallet yang terhubung */}
+        {/* Konten untuk wallet yang terhubung - Mobile Responsive */}
         {isConnected && !isWrongNetwork && (
-          <div className="animate-fade-in">
+          <div className="animate-fade-in px-4">
             {/* Sale Status */}
-            <div className="mb-12">
+            <div className="mb-8 md:mb-12">
               <SaleStatus />
             </div>
             
-            {/* Purchase Panels */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            {/* Purchase Panels - Mobile Stack Layout */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto">
               <div className="lg:col-span-1">
                 <BuyWithBNB />
               </div>
               <div className="lg:col-span-1">
                 <BuyWithUSDT />
               </div>
-              <div className="xl:col-span-1 lg:col-span-2">
+              <div className="xl:col-span-1 lg:col-span-2 xl:col-start-auto lg:col-start-1">
                 <UserBalances />
               </div>
             </div>
@@ -302,7 +302,7 @@ const MainContent = () => {
   );
 };
 
-// Feature Card Component
+// Feature Card Component - Mobile Optimized
 const FeatureCard = ({ icon, title, description, delay }: {
   icon: React.ReactNode;
   title: string;
@@ -311,12 +311,12 @@ const FeatureCard = ({ icon, title, description, delay }: {
 }) => (
   <Card className={`card-glow hover:scale-105 transition-all duration-300 animate-fade-in`} 
         style={{ animationDelay: `${delay}ms` }}>
-    <CardContent className="p-8 text-center">
-      <div className="mb-6 flex justify-center animate-float">
+    <CardContent className="p-4 md:p-8 text-center">
+      <div className="mb-4 md:mb-6 flex justify-center animate-float">
         {icon}
       </div>
-      <h3 className="text-xl font-bold mb-4">{title}</h3>
-      <p className="text-muted-foreground leading-relaxed">{description}</p>
+      <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-4">{title}</h3>
+      <p className="text-sm md:text-base text-muted-foreground leading-relaxed">{description}</p>
     </CardContent>
   </Card>
 );
@@ -333,26 +333,26 @@ const ConnectWallet = () => {
 
   if (!isConnected) {
     return (
-      <div className="flex flex-col items-center gap-6">
-        <div className="flex flex-wrap gap-4 justify-center">
+      <div className="flex flex-col items-center gap-4 md:gap-6">
+        <div className="flex flex-col sm:flex-row flex-wrap gap-3 md:gap-4 justify-center w-full max-w-md sm:max-w-none">
           {availableConnectors.map((connector) => (
             <Button
               key={connector.uid}
               onClick={() => connect({ connector })}
               disabled={isPending}
               size="lg"
-              className="bg-gradient-primary hover:shadow-button transition-all duration-300 text-lg px-8 py-4 hover:scale-105"
+              className="bg-gradient-primary hover:shadow-button transition-all duration-300 text-base md:text-lg px-6 md:px-8 py-3 md:py-4 hover:scale-105 w-full sm:w-auto"
             >
               {isPending ? (
-                <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                <Loader2 className="w-4 h-4 md:w-5 md:h-5 mr-2 animate-spin" />
               ) : (
-                <Wallet className="w-5 h-5 mr-2" />
+                <Wallet className="w-4 h-4 md:w-5 md:h-5 mr-2" />
               )}
               Hubungkan {connector.name}
             </Button>
           ))}
         </div>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-xs md:text-sm text-muted-foreground text-center px-4">
           Hubungkan wallet Anda untuk mulai membeli token
         </p>
       </div>
@@ -360,39 +360,40 @@ const ConnectWallet = () => {
   }
 
   return (
-    <div className="flex items-center justify-center gap-6 animate-scale-in">
-      <div className="glass-card rounded-2xl p-6 flex items-center gap-4">
-        <div className="flex items-center gap-3">
-          <div className="w-4 h-4 bg-success rounded-full animate-pulse"></div>
-          <div>
-            <div className="font-mono text-lg font-semibold">
+    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6 animate-scale-in">
+      <div className="glass-card rounded-2xl p-4 md:p-6 flex flex-col sm:flex-row items-center gap-3 md:gap-4 w-full sm:w-auto">
+        <div className="flex items-center gap-3 w-full sm:w-auto justify-center sm:justify-start">
+          <div className="w-3 h-3 md:w-4 md:h-4 bg-success rounded-full animate-pulse"></div>
+          <div className="text-center sm:text-left">
+            <div className="font-mono text-base md:text-lg font-semibold">
               {address?.slice(0, 6)}...{address?.slice(-4)}
             </div>
             {balance && (
-              <div className="text-sm text-muted-foreground">
+              <div className="text-xs md:text-sm text-muted-foreground">
                 {parseFloat(balance.formatted).toFixed(4)} BNB
               </div>
             )}
           </div>
         </div>
         
-        <div className="flex gap-2">
+        <div className="flex gap-2 w-full sm:w-auto justify-center">
           <Button
             size="sm"
             variant="ghost"
             onClick={() => navigator.clipboard.writeText(address || '')}
-            className="hover:bg-primary/20"
+            className="hover:bg-primary/20 flex-1 sm:flex-none"
           >
-            <Copy className="w-4 h-4" />
+            <Copy className="w-3 h-3 md:w-4 md:h-4" />
           </Button>
           <Button
             size="sm"
             variant="outline"
             onClick={() => disconnect()}
-            className="hover:bg-destructive/20 hover:text-destructive hover:border-destructive"
+            className="hover:bg-destructive/20 hover:text-destructive hover:border-destructive flex-1 sm:flex-none"
           >
-            <X className="w-4 h-4 mr-1" />
-            Keluar
+            <X className="w-3 h-3 md:w-4 md:h-4 mr-1" />
+            <span className="hidden sm:inline">Keluar</span>
+            <span className="sm:hidden">Keluar</span>
           </Button>
         </div>
       </div>
@@ -452,53 +453,53 @@ const SaleStatus = () => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Countdown Timer */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+          {/* Countdown Timer - Mobile Optimized */}
           <div className="text-center">
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <Timer className="w-6 h-6 text-accent" />
-              <span className="text-lg font-semibold text-muted-foreground">Berakhir dalam:</span>
+            <div className="flex items-center justify-center gap-2 mb-3 md:mb-4">
+              <Timer className="w-5 h-5 md:w-6 md:h-6 text-accent" />
+              <span className="text-sm md:text-lg font-semibold text-muted-foreground">Berakhir dalam:</span>
             </div>
-            <div className="flex justify-center gap-3">
+            <div className="flex justify-center gap-2 md:gap-3">
               {[
                 { label: 'Hari', value: timeLeft.days },
                 { label: 'Jam', value: timeLeft.hours },
                 { label: 'Menit', value: timeLeft.minutes },
                 { label: 'Detik', value: timeLeft.seconds }
               ].map((item, index) => (
-                <div key={index} className="glass-card rounded-xl p-4 min-w-[70px] animate-pulse-glow">
-                  <div className="text-3xl font-bold text-primary mb-1">{item.value}</div>
-                  <div className="text-xs text-muted-foreground font-medium">{item.label}</div>
+                <div key={index} className="glass-card rounded-lg md:rounded-xl p-2 md:p-4 min-w-[50px] md:min-w-[70px] animate-pulse-glow">
+                  <div className="text-xl md:text-3xl font-bold text-primary mb-0 md:mb-1">{item.value}</div>
+                  <div className="text-xs font-medium text-muted-foreground">{item.label}</div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Total Terjual */}
+          {/* Total Terjual - Mobile Optimized */}
           <div className="text-center">
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <Coins className="w-6 h-6 text-secondary" />
-              <span className="text-lg font-semibold text-muted-foreground">Total Terjual:</span>
+            <div className="flex items-center justify-center gap-2 mb-3 md:mb-4">
+              <Coins className="w-5 h-5 md:w-6 md:h-6 text-secondary" />
+              <span className="text-sm md:text-lg font-semibold text-muted-foreground">Total Terjual:</span>
             </div>
-            <div className="glass-card rounded-xl p-6">
-              <div className="text-3xl font-bold text-secondary mb-2">
+            <div className="glass-card rounded-lg md:rounded-xl p-4 md:p-6">
+              <div className="text-2xl md:text-3xl font-bold text-secondary mb-1 md:mb-2">
                 {totalSold ? formatEther(totalSold as bigint).slice(0, 10) : '0'}
               </div>
-              <div className="text-sm text-muted-foreground">Token</div>
+              <div className="text-xs md:text-sm text-muted-foreground">Token</div>
             </div>
           </div>
 
-          {/* Status */}
+          {/* Status - Mobile Optimized */}
           <div className="text-center">
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <CheckCircle className="w-6 h-6 text-success" />
-              <span className="text-lg font-semibold text-muted-foreground">Status:</span>
+            <div className="flex items-center justify-center gap-2 mb-3 md:mb-4">
+              <CheckCircle className="w-5 h-5 md:w-6 md:h-6 text-success" />
+              <span className="text-sm md:text-lg font-semibold text-muted-foreground">Status:</span>
             </div>
-            <div className="glass-card rounded-xl p-6">
-              <div className={`text-2xl font-bold mb-2 ${isPaused ? 'text-warning' : 'text-success'}`}>
+            <div className="glass-card rounded-lg md:rounded-xl p-4 md:p-6">
+              <div className={`text-xl md:text-2xl font-bold mb-1 md:mb-2 ${isPaused ? 'text-warning' : 'text-success'}`}>
                 {isPaused ? '⏸️ Dijeda' : '🟢 Aktif'}
               </div>
-              <div className="text-sm text-muted-foreground">Penjualan</div>
+              <div className="text-xs md:text-sm text-muted-foreground">Penjualan</div>
             </div>
           </div>
         </div>
@@ -556,15 +557,15 @@ const BuyWithBNB = () => {
 
   return (
     <Card className="card-glow animate-fade-in">
-      <CardHeader className="text-center">
-        <CardTitle className="text-xl flex items-center justify-center gap-2">
-          <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center">
+      <CardHeader className="text-center pb-4 md:pb-6">
+        <CardTitle className="text-lg md:text-xl flex items-center justify-center gap-2">
+          <div className="w-6 h-6 md:w-8 md:h-8 bg-gradient-primary rounded-full flex items-center justify-center">
             💰
           </div>
           Beli dengan BNB
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-4 md:space-y-6 p-4 md:p-6">
         <div className="space-y-2">
           <label className="text-sm font-medium text-muted-foreground">Jumlah BNB</label>
           <Input
@@ -572,7 +573,7 @@ const BuyWithBNB = () => {
             placeholder="0.0"
             value={bnbAmount}
             onChange={(e) => setBnbAmount(e.target.value)}
-            className="text-lg h-12 bg-input/50 backdrop-blur-sm"
+            className="text-base md:text-lg h-10 md:h-12 bg-input/50 backdrop-blur-sm"
           />
         </div>
 
@@ -584,32 +585,32 @@ const BuyWithBNB = () => {
             placeholder="0x..."
             value={referrer}
             onChange={(e) => setReferrer(e.target.value)}
-            className="h-12 bg-input/50 backdrop-blur-sm font-mono text-sm"
+            className="h-10 md:h-12 bg-input/50 backdrop-blur-sm font-mono text-xs md:text-sm"
           />
         </div>
 
-        <div className="glass-card rounded-xl p-4 bg-primary/5">
+        <div className="glass-card rounded-lg md:rounded-xl p-3 md:p-4 bg-primary/5">
           <div className="flex justify-between items-center">
-            <span className="text-sm text-muted-foreground">Token yang diterima:</span>
-            <span className="text-xl font-bold text-primary">{estimatedTokens}</span>
+            <span className="text-xs md:text-sm text-muted-foreground">Token yang diterima:</span>
+            <span className="text-lg md:text-xl font-bold text-primary">{estimatedTokens}</span>
           </div>
         </div>
 
         <Button
           onClick={handleBuy}
           disabled={isPending || !bnbAmount}
-          className="w-full bg-gradient-primary hover:shadow-button text-lg py-6 transition-all duration-300"
+          className="w-full bg-gradient-primary hover:shadow-button text-base md:text-lg py-4 md:py-6 transition-all duration-300"
           size="lg"
         >
           {isPending ? (
             <>
-              <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-              Memproses Transaksi...
+              <Loader2 className="w-4 h-4 md:w-5 md:h-5 mr-2 animate-spin" />
+              <span className="text-sm md:text-base">Memproses...</span>
             </>
           ) : (
             <>
-              <Wallet className="w-5 h-5 mr-2" />
-              Beli dengan BNB
+              <Wallet className="w-4 h-4 md:w-5 md:h-5 mr-2" />
+              <span className="text-sm md:text-base">Beli dengan BNB</span>
             </>
           )}
         </Button>
@@ -693,15 +694,15 @@ const BuyWithUSDT = () => {
 
   return (
     <Card className="card-glow animate-fade-in delay-100">
-      <CardHeader className="text-center">
-        <CardTitle className="text-xl flex items-center justify-center gap-2">
-          <div className="w-8 h-8 bg-gradient-accent rounded-full flex items-center justify-center">
+      <CardHeader className="text-center pb-4 md:pb-6">
+        <CardTitle className="text-lg md:text-xl flex items-center justify-center gap-2">
+          <div className="w-6 h-6 md:w-8 md:h-8 bg-gradient-accent rounded-full flex items-center justify-center">
             💵
           </div>
           Beli dengan USDT
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-4 md:space-y-6 p-4 md:p-6">
         <div className="space-y-2">
           <label className="text-sm font-medium text-muted-foreground">Jumlah USDT</label>
           <Input
@@ -709,7 +710,7 @@ const BuyWithUSDT = () => {
             placeholder="0.0"
             value={usdtAmount}
             onChange={(e) => setUsdtAmount(e.target.value)}
-            className="text-lg h-12 bg-input/50 backdrop-blur-sm"
+            className="text-base md:text-lg h-10 md:h-12 bg-input/50 backdrop-blur-sm"
           />
         </div>
 
@@ -721,14 +722,14 @@ const BuyWithUSDT = () => {
             placeholder="0x..."
             value={referrer}
             onChange={(e) => setReferrer(e.target.value)}
-            className="h-12 bg-input/50 backdrop-blur-sm font-mono text-sm"
+            className="h-10 md:h-12 bg-input/50 backdrop-blur-sm font-mono text-xs md:text-sm"
           />
         </div>
 
-        <div className="glass-card rounded-xl p-4 bg-secondary/5">
+        <div className="glass-card rounded-lg md:rounded-xl p-3 md:p-4 bg-secondary/5">
           <div className="flex justify-between items-center">
-            <span className="text-sm text-muted-foreground">Token yang diterima:</span>
-            <span className="text-xl font-bold text-secondary">{estimatedTokens}</span>
+            <span className="text-xs md:text-sm text-muted-foreground">Token yang diterima:</span>
+            <span className="text-lg md:text-xl font-bold text-secondary">{estimatedTokens}</span>
           </div>
         </div>
 
@@ -736,18 +737,18 @@ const BuyWithUSDT = () => {
           <Button
             onClick={handleApprove}
             disabled={isPending || !usdtAmount}
-            className="w-full bg-gradient-accent hover:shadow-button text-lg py-6 transition-all duration-300"
+            className="w-full bg-gradient-accent hover:shadow-button text-base md:text-lg py-4 md:py-6 transition-all duration-300"
             size="lg"
           >
             {isPending ? (
               <>
-                <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                Menyetujui USDT...
+                <Loader2 className="w-4 h-4 md:w-5 md:h-5 mr-2 animate-spin" />
+                <span className="text-sm md:text-base">Menyetujui...</span>
               </>
             ) : (
               <>
-                <CheckCircle className="w-5 h-5 mr-2" />
-                Setujui Penggunaan USDT
+                <CheckCircle className="w-4 h-4 md:w-5 md:h-5 mr-2" />
+                <span className="text-sm md:text-base">Setujui USDT</span>
               </>
             )}
           </Button>
@@ -755,18 +756,18 @@ const BuyWithUSDT = () => {
           <Button
             onClick={handleBuy}
             disabled={isPending || !usdtAmount}
-            className="w-full bg-gradient-accent hover:shadow-button text-lg py-6 transition-all duration-300"
+            className="w-full bg-gradient-accent hover:shadow-button text-base md:text-lg py-4 md:py-6 transition-all duration-300"
             size="lg"
           >
             {isPending ? (
               <>
-                <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                Memproses Transaksi...
+                <Loader2 className="w-4 h-4 md:w-5 md:h-5 mr-2 animate-spin" />
+                <span className="text-sm md:text-base">Memproses...</span>
               </>
             ) : (
               <>
-                <Coins className="w-5 h-5 mr-2" />
-                Beli dengan USDT
+                <Coins className="w-4 h-4 md:w-5 md:h-5 mr-2" />
+                <span className="text-sm md:text-base">Beli dengan USDT</span>
               </>
             )}
           </Button>
@@ -798,52 +799,52 @@ const UserBalances = () => {
 
   return (
     <Card className="card-glow animate-fade-in delay-200">
-      <CardHeader className="text-center">
-        <CardTitle className="text-xl flex items-center justify-center gap-2">
-          <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center">
+      <CardHeader className="text-center pb-4 md:pb-6">
+        <CardTitle className="text-lg md:text-xl flex items-center justify-center gap-2">
+          <div className="w-6 h-6 md:w-8 md:h-8 bg-gradient-primary rounded-full flex items-center justify-center">
             👛
           </div>
           Saldo Wallet Anda
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
-        <div className="grid gap-4">
+      <CardContent className="space-y-4 md:space-y-6 p-4 md:p-6">
+        <div className="grid gap-3 md:gap-4">
           {/* Project Token Balance */}
-          <div className="glass-card rounded-xl p-4 bg-primary/5">
+          <div className="glass-card rounded-lg md:rounded-xl p-3 md:p-4 bg-primary/5">
             <div className="flex justify-between items-center">
               <div>
-                <div className="text-sm text-muted-foreground">Project Token</div>
-                <div className="text-2xl font-bold text-primary">
+                <div className="text-xs md:text-sm text-muted-foreground">Project Token</div>
+                <div className="text-lg md:text-2xl font-bold text-primary">
                   {projectTokenBalance ? formatEther(projectTokenBalance as bigint).slice(0, 10) : '0'}
                 </div>
               </div>
-              <Coins className="w-8 h-8 text-primary opacity-50" />
+              <Coins className="w-6 h-6 md:w-8 md:h-8 text-primary opacity-50" />
             </div>
           </div>
 
           {/* USDT Balance */}
-          <div className="glass-card rounded-xl p-4 bg-accent/5">
+          <div className="glass-card rounded-lg md:rounded-xl p-3 md:p-4 bg-accent/5">
             <div className="flex justify-between items-center">
               <div>
-                <div className="text-sm text-muted-foreground">USDT</div>
-                <div className="text-2xl font-bold text-accent">
+                <div className="text-xs md:text-sm text-muted-foreground">USDT</div>
+                <div className="text-lg md:text-2xl font-bold text-accent">
                   {usdtBalance ? formatUnits(usdtBalance as bigint, 18).slice(0, 10) : '0'}
                 </div>
               </div>
-              <div className="text-2xl">💵</div>
+              <div className="text-xl md:text-2xl">💵</div>
             </div>
           </div>
 
           {/* BNB Balance */}
-          <div className="glass-card rounded-xl p-4 bg-secondary/5">
+          <div className="glass-card rounded-lg md:rounded-xl p-3 md:p-4 bg-secondary/5">
             <div className="flex justify-between items-center">
               <div>
-                <div className="text-sm text-muted-foreground">BNB</div>
-                <div className="text-2xl font-bold text-secondary">
+                <div className="text-xs md:text-sm text-muted-foreground">BNB</div>
+                <div className="text-lg md:text-2xl font-bold text-secondary">
                   {bnbBalance ? parseFloat(bnbBalance.formatted).toFixed(4) : '0'}
                 </div>
               </div>
-              <div className="text-2xl">💰</div>
+              <div className="text-xl md:text-2xl">💰</div>
             </div>
           </div>
         </div>
@@ -851,10 +852,10 @@ const UserBalances = () => {
         <Button
           onClick={() => window.open(`https://bscscan.com/address/${address}`, '_blank')}
           variant="outline"
-          className="w-full hover:bg-primary/10 transition-all duration-300"
+          className="w-full hover:bg-primary/10 transition-all duration-300 py-3 md:py-4"
         >
-          <ExternalLink className="w-4 h-4 mr-2" />
-          Lihat di BSCScan
+          <ExternalLink className="w-3 h-3 md:w-4 md:h-4 mr-2" />
+          <span className="text-sm md:text-base">Lihat di BSCScan</span>
         </Button>
       </CardContent>
     </Card>

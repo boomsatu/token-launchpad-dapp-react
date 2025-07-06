@@ -101,6 +101,13 @@ All colors MUST be HSL. Crypto/DeFi inspired theme with dark base and vibrant ac
     border: 1px solid hsl(var(--border) / 0.2);
   }
 
+  .glass-card {
+    background: var(--gradient-glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid hsl(var(--border) / 0.3);
+    box-shadow: var(--shadow-card);
+  }
+
   .glow {
     box-shadow: var(--shadow-glow);
   }
@@ -117,5 +124,22 @@ All colors MUST be HSL. Crypto/DeFi inspired theme with dark base and vibrant ac
 
   .transition-spring {
     transition: var(--transition-spring);
+  }
+
+  /* Mobile touch improvements */
+  @media (max-width: 768px) {
+    .touch-manipulation {
+      touch-action: manipulation;
+    }
+    
+    /* Increase touch targets for mobile */
+    button, input, [role="button"] {
+      min-height: 44px;
+    }
+    
+    /* Prevent zoom on double tap */
+    * {
+      touch-action: manipulation;
+    }
   }
 }
